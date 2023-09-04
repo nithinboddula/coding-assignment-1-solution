@@ -287,10 +287,12 @@ app.get("/agenda/", checkQueryInvalids, async (request, response) => {
 app.post("/todos/", checkRequestBodyInvalids, async (request, response) => {
   const { id, todo, priority, status, category, dueDate } = request.body;
   //   console.log(priority);
+   const dateObj = new Date(dueDate);
+  const formattedDate = format(dateObj, "yyyy-MM-dd");
   const postQuery = `
     INSERT INTO 
         todo (id, todo, priority, status, category, due_date )
-    VALUES (${id}, '${todo}', '${priority}', '${status}', '${category}', '${dueDate}');`;
+    VALUES (${id}, '${todo}', '${priority}', '${status}', '${category}', '${formattedDate}');`;
   await db.run(postQuery);
   response.send("Todo Successfully Added");
 });
